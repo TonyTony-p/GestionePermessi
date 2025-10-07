@@ -48,6 +48,10 @@ public class Utente {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    /** Cani posseduti dall'utente. */
+    @OneToMany(mappedBy = "proprietario")
+    private java.util.List<Cane> cani;
+
     // Getter/Setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -73,4 +77,6 @@ public class Utente {
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+    public java.util.List<Cane> getCani() { return cani; }
+    public void setCani(java.util.List<Cane> cani) { this.cani = cani; }
 }

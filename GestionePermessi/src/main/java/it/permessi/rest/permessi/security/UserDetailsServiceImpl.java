@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Utente u = utenteRepository.findByEmail(email)
+        Utente u = utenteRepository.findWithAuthoritiesByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utente non trovato: " + email));
 
         var authorities = u.getRuolo().getRuoloPermessi().stream()

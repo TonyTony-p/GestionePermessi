@@ -1,0 +1,1251 @@
+{
+	"info": {
+		"_postman_id": "d0ce6642-f8ea-4bfe-968d-47269dbb94e7",
+		"name": "GestionePermessi API",
+		"description": "Collection Postman per tutte le rotte dei controller dell'app GestionePermessi. Usa {{baseUrl}} e Bearer {{token}}.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "41608260"
+	},
+	"item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"  const json = pm.response.json();",
+									"  if (json && json.token) { pm.collectionVariables.set('token', json.token); }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+                },
+                {
+                    "name": "Logout",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/logout",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "logout"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Register",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            { "key": "Content-Type", "value": "application/json" }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"nome\": \"Mario\",\n  \"cognome\": \"Rossi\",\n  \"codiceFiscale\": \"RSSMRA80A01H501U\",\n  \"email\": \"mario.rossi@example.com\",\n  \"password\": \"Password123!\",\n  \"telefono\": \"3331234567\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/auth/register",
+                            "host": [ "{{baseUrl}}" ],
+                            "path": [ "api", "auth", "register" ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+		{
+			"name": "Utenti",
+			"item": [
+				{
+					"name": "Crea utente",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Mario\",\n  \"cognome\": \"Rossi\",\n  \"codiceFiscale\": \"RSSMRA80A01H501U\",\n  \"email\": \"mario.rossi@example.com\",\n  \"password\": \"Password123!\",\n  \"dataNascita\": \"1980-01-01\",\n  \"telefono\": \"3331234567\",\n  \"indirizzo\": \"Via Roma 1\",\n  \"ruolo\": { \"id\": 1 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna utente",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 2,\n  \"nome\": \"Mario\",\n  \"cognome\": \"Rossi\",\n  \"codiceFiscale\": \"RSSMRA80A01H501U\",\n  \"email\": \"mario.rossi@example.com\",\n  \"ruolo\": { \"id\": 1 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina utente",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dettaglio utente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti/2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cani di utente specifico",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti/2/cani",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti",
+								"2",
+								"cani"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista utenti (paginata)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista utenti (tutti)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti/tutti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti",
+								"tutti"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profilo utente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/utenti/profilo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"utenti",
+								"profilo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ruoli",
+			"item": [
+				{
+					"name": "Crea ruolo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Amministratore\",\n  \"alias\": \"ADMIN\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna ruolo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"nome\": \"Amministratore\",\n  \"alias\": \"ADMIN\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina ruolo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dettaglio ruolo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista ruoli (paginata)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista ruoli (tutti)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli/tutti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli",
+								"tutti"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permessi",
+			"item": [
+				{
+					"name": "Crea permesso",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Lettura Cani\",\n  \"alias\": \"CANE_READ\",\n  \"gruppo\": { \"id\": 5 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"permessi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna permesso",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 10,\n  \"nome\": \"Lettura Cani\",\n  \"alias\": \"CANE_READ\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"permessi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina permesso",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 10\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"permessi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dettaglio permesso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/permessi/10",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"permessi",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista permessi (paginata)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/permessi?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"permessi"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista permessi (tutti)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/permessi/tutti",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"permessi",
+								"tutti"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gruppi",
+			"item": [
+				{
+					"name": "Crea gruppo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"CANI\",\n  \"alias\": \"CANI\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna gruppo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 5,\n  \"nome\": \"CANI\",\n  \"alias\": \"CANI\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Elimina gruppo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 5\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dettaglio gruppo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi/5?withPermessi=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi",
+								"5"
+							],
+							"query": [
+								{
+									"key": "withPermessi",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista gruppi (paginata)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi?withPermessi=false&page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi"
+							],
+							"query": [
+								{
+									"key": "withPermessi",
+									"value": "false"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista gruppi (tutti)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi/tutti?withPermessi=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi",
+								"tutti"
+							],
+							"query": [
+								{
+									"key": "withPermessi",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Associa permessi a gruppo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"gruppoId\": 5,\n  \"permessi\": [ { \"id\": 10 }, { \"id\": 11 } ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi/associa-permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi",
+								"associa-permessi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dissocia permessi da gruppo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"gruppoId\": 5,\n  \"permessi\": [ { \"id\": 10 }, { \"id\": 11 } ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/gruppi/dissocia-permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"gruppi",
+								"dissocia-permessi"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cani",
+			"item": [
+				{
+					"name": "Crea cane",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Fido\",\n  \"dataNascita\": \"2020-05-20\",\n  \"peso\": 25.0,\n  \"pedigree\": true,\n  \"proprietario\": { \"id\": 2 },\n  \"razza\": { \"id\": 1 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cani",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cani"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna cane",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 3,\n  \"nome\": \"Fido\",\n  \"proprietario\": { \"id\": 2 },\n  \"razza\": { \"id\": 1 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cani",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cani"
+							]
+						}
+					},
+					"response": []
+				},
+                {
+                    "name": "Elimina cane",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": 3\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/cani",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "cani"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+				{
+					"name": "Dettaglio cane",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cani/3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cani",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista cani (paginata)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cani?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cani"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista cani (tutti)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cani/all",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cani",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "I miei cani",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/cani/miei",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cani",
+								"miei"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Razze",
+			"item": [
+				{
+					"name": "Crea razza",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Labrador\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/razze",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"razze"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Aggiorna razza",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 1,\n  \"nome\": \"Labrador Retriever\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/razze",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"razze"
+							]
+						}
+					},
+					"response": []
+				},
+                {
+                    "name": "Elimina razza",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"id\": 1\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/razze",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "razze"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+				{
+					"name": "Dettaglio razza",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/razze/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"razze",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista razze (paginata)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/razze?page=0&size=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"razze"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lista razze (tutte)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/razze/all",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"razze",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ruoli-Permessi",
+			"item": [
+				{
+					"name": "Lista permessi per ruolo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli-permessi/ruolo/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli-permessi",
+								"ruolo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Associa permesso a ruolo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ruoloId\": 1,\n  \"permesso\": { \"id\": 10 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli-permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli-permessi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dissocia permesso da ruolo",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ruoloId\": 1,\n  \"permesso\": { \"id\": 10 }\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/ruoli-permessi",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ruoli-permessi"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

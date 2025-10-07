@@ -61,4 +61,18 @@ public class UtenteController {
     public List<UtenteDto> listAll() {
         return service.listAll();
     }
+
+    /** Profilo utente corrente (id dal JWT). */
+    @GetMapping("/profilo")
+    @PreAuthorize("hasAuthority('UTENTE_PROFILE')")
+    public UtenteDto profile() {
+        return service.getProfile();
+    }
+
+    /** Utente con la lista dei suoi cani. */
+    @PreAuthorize("hasAuthority('CANE_READ')")
+    @GetMapping("/{utenteId}/cani")
+    public it.permessi.rest.permessi.dto.UtenteDto getUtenteConCani(@PathVariable Long utenteId) {
+        return service.getUtenteConCani(utenteId);
+    }
 }

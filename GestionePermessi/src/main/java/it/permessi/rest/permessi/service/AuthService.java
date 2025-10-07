@@ -2,12 +2,14 @@ package it.permessi.rest.permessi.service;
 
 import it.permessi.rest.permessi.dto.GruppoDto;
 import it.permessi.rest.permessi.dto.LoginRequest;
+import it.permessi.rest.permessi.dto.RegisterRequest;
 import it.permessi.rest.permessi.dto.LoginResponse;
 import it.permessi.rest.permessi.dto.PermessoDto;
 import it.permessi.rest.permessi.dto.RuoloDto;
 import it.permessi.rest.permessi.entity.Utente;
 import it.permessi.rest.permessi.mapper.DtoMapper;
 import it.permessi.rest.permessi.repository.UtenteRepository;
+import it.permessi.rest.permessi.repository.RuoloRepository;
 import it.permessi.rest.permessi.security.JwtUtils;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,6 +30,8 @@ public class AuthService {
     @Autowired private AuthenticationManager authManager;
     @Autowired private JwtUtils jwtUtils;
     @Autowired private UtenteRepository utenteRepository;
+    @Autowired private RuoloRepository ruoloRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
 
     /** Esegue il login e costruisce la LoginResponse completa. */
     public LoginResponse login(@Valid LoginRequest req) {
@@ -39,7 +44,7 @@ public class AuthService {
         // 2) Genera JWT
         String token = jwtUtils.generateJwtToken(req.getEmail(), Map.of());
 
-        // 3) Recupera utente
+        // 3) Recupera utente con ruolo e permessi già inizializzati
         Utente u = utenteRepository.findByEmail(req.getEmail())
                 .orElseThrow(() -> new RuntimeException("Utente non trovato"));
 
@@ -80,5 +85,34 @@ public class AuthService {
     /** Logout stateless: qui non serve fare nulla. */
     public void logout() {
         // Se vuoi implementare una blacklist di token, fallo qui.
+    }
+
+    /** Registra un nuovo utente con ruolo USER assegnato automaticamente. */
+    public Utente register(@Valid RegisterRequest req) {
+        // Verifica email esistente
+        utenteRepository.findByEmail(req.getEmail()).ifPresent(u -> {
+            throw new RuntimeException("Email già registrata");
+        });
+
+        // Verifica codice fiscale esistente
+        utenteRepository.findByCodiceFiscale(req.getCodiceFiscale()).ifPresent(u -> {
+            throw new RuntimeException("Codice fiscale già registrato");
+        });
+
+        // Trova ruolo USER
+        var ruoloUser = ruoloRepository.findByAlias("USER")
+                .orElseThrow(() -> new RuntimeException("Ruolo USER non configurato"));
+
+        // Crea utente
+        Utente u = new Utente();
+        u.setNome(req.getNome());
+        u.setCognome(req.getCognome());
+        u.setEmail(req.getEmail());
+        u.setCodiceFiscale(req.getCodiceFiscale());
+        u.setPassword(passwordEncoder.encode(req.getPassword()));
+        u.setTelefono(req.getTelefono());
+        u.setRuolo(ruoloUser);
+
+        return utenteRepository.save(u);
     }
 }

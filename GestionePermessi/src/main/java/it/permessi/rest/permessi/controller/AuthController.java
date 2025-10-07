@@ -2,6 +2,7 @@ package it.permessi.rest.permessi.controller;
 
 import it.permessi.rest.permessi.dto.LoginRequest;
 import it.permessi.rest.permessi.dto.LoginResponse;
+import it.permessi.rest.permessi.dto.RegisterRequest;
 import it.permessi.rest.permessi.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class AuthController {
     @PostMapping("/logout")
     public void logout() {
         authService.logout();
+    }
+
+    @PostMapping("/register")
+    public void register(@Valid @RequestBody RegisterRequest req) {
+        authService.register(req);
     }
 }

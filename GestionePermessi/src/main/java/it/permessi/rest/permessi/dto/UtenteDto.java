@@ -16,6 +16,7 @@ public class UtenteDto {
     private RuoloDto ruolo;
     private Instant createdAt;
     private Instant updatedAt;
+    private java.util.List<CaneDto> cani;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -39,4 +40,6 @@ public class UtenteDto {
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+    public java.util.List<CaneDto> getCani() { return cani; }
+    public void setCani(java.util.List<CaneDto> cani) { this.cani = cani; }
 }

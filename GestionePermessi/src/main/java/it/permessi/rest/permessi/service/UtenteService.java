@@ -1,16 +1,19 @@
 package it.permessi.rest.permessi.service;
 
 import it.permessi.rest.permessi.dto.PageResponse;
+import it.permessi.rest.permessi.dto.CaneDto;
 import it.permessi.rest.permessi.dto.UtenteFormDto;
 import it.permessi.rest.permessi.dto.UtenteDto;
 import it.permessi.rest.permessi.entity.Ruolo;
 import it.permessi.rest.permessi.entity.Utente;
+import it.permessi.rest.permessi.repository.CaneRepository;
 import it.permessi.rest.permessi.repository.RuoloRepository;
 import it.permessi.rest.permessi.repository.UtenteRepository;
 import it.permessi.rest.permessi.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +26,7 @@ public class UtenteService {
     @Autowired private UtenteRepository repo;
     @Autowired private RuoloRepository ruoloRepo;
     @Autowired private PasswordEncoder encoder;
+    @Autowired private CaneRepository caneRepo;
 
     /** Crea utente (password codificata). */
     public UtenteDto create(UtenteFormDto form) {
@@ -60,6 +64,23 @@ public class UtenteService {
         return repo.findAll().stream()
                 .map(DtoMapper::toUtenteDto)
                 .collect(Collectors.toList());
+    }
+
+    /** Profilo utente corrente (ricavato dal JWT). */
+    public UtenteDto getProfile() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Utente u = repo.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utente corrente non trovato"));
+        return DtoMapper.toUtenteDto(u);
+    }
+
+    /** Utente con la lista dei suoi cani. */
+    public UtenteDto getUtenteConCani(Long utenteId) {
+        Utente u = repo.findById(utenteId)
+                .orElseThrow(() -> new RuntimeException("Utente proprietario non trovato"));
+        // Carica cani dall'repository per evitare lazy issues e popolare DTO
+        java.util.List<it.permessi.rest.permessi.entity.Cane> cani = caneRepo.findByProprietario_Id(utenteId);
+        return DtoMapper.toUtenteDtoWithCani(u, cani);
     }
 
     /** Copia campi dal form, gestendo password e ruolo. */
